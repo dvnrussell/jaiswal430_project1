@@ -70,13 +70,20 @@ public class HACServer {
     }
 
     private void updateNodeNetwork(final InetAddress address) {
+        Boolean addNode = true;
         for (final Node n : nodeNetwork.getNodeList()) {
             if (address.getHostAddress().equals(n.getAddress().getHostAddress())) {
                 n.setTimestamp();
-                return;
+                addNode = false;
             }
         }
-        nodeNetwork.addNode(new Node(address));
+        if (addNode) 
+            nodeNetwork.addNode(new Node(address));
+
+        for(Node n : nodeNetwork.getNodeList()) {
+            System.out.println(n.getAddress().getHostAddress()
+                    + " --- " + (n.getStatus() ? "active as of " : "dead: last seen ") + n.getTimestamp() );
+        }
     }
 
     public void monitorNodeAvailability() {
