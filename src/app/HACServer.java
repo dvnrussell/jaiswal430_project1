@@ -81,14 +81,14 @@ public class HACServer {
         if (addNode) 
             nodeNetwork.addNode(new Node(address));
 
-        for(Node n : nodeNetwork.getNodeList()) {
-            System.out.println(n.getAddress().getHostAddress()
-                    + " --- " + (n.getStatus() ? "active as of " : "dead: last seen ") + n.getTimestamp() );
+        for(final Node n : nodeNetwork.getNodeList()) {
+            System.out.println(n.getAddress().getHostAddress() + " --- "
+                    + (n.getStatus() ? "active as of " : "dead: last seen ") + n.getTimestamp());
         }
     }
 
     public void monitorNodeAvailability() {
-        Timer t = new Timer();
+        final Timer t = new Timer();
         t.schedule(new NodeMonitor(nodeNetwork.getNodeList()), 0, 10000);
     }
 }
