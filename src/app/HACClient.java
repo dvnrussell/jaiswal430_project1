@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class HACClient {
     private DatagramSocket socket;
-    private Random notificationTimer;
+    private final Random notificationTimer;
     private final int maxWaitInterval = 30000;
 
     public HACClient() {
@@ -21,8 +21,8 @@ public class HACClient {
         notificationTimer = new Random();
     }
 
-    public void createAndListenSocket(String addr) {
-        while(true) {
+    public void createAndListenSocket(final String addr) {
+        while (true) {
             try {
                 socket = new DatagramSocket();
                 final InetAddress address = InetAddress.getByName(addr);
@@ -32,7 +32,7 @@ public class HACClient {
                 final DatagramPacket sendPacket = new DatagramPacket(data, data.length, address, 9876);
                 socket.send(sendPacket);
 
-                System.out.println("Message sent from client");
+                System.out.println("Message sent from client to" + address.getHostAddress());
                 final DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
 
                 socket.receive(incomingPacket);
@@ -41,9 +41,9 @@ public class HACClient {
 
                 System.out.println("Response from server: ");
 
-                for(Node n : datagram.getNodeList()) {
-                    System.out.println(n.getAddress().getHostAddress()
-                            + " --- " + (n.getStatus() ? "active as of " : "dead: last seen ") + n.getTimestamp() );
+                for (final Node n : datagram.getNodeList()) {
+                    System.out.println(n.getAddress().getHostAddress() + " --- "
+                            + (n.getStatus() ? "active as of " : "dead: last seen ") + n.getTimestamp());
                 }
 
                 socket.close();
@@ -64,9 +64,9 @@ public class HACClient {
         }
     }
 
-    private Object deserializeObject(byte[] data) throws IOException, ClassNotFoundException {
-        ByteArrayInputStream bais = new ByteArrayInputStream(data);
-        ObjectInput in = new ObjectInputStream(bais);
+    private Object deserializeObject(final byte[] data) throws IOException, ClassNotFoundException {
+        final ByteArrayInputStream bais = new ByteArrayInputStream(data);
+        final ObjectInput in = new ObjectInputStream(bais);
         return in.readObject(); 
     }
 }
