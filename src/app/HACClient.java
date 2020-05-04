@@ -32,7 +32,7 @@ public class HACClient {
                 final DatagramPacket sendPacket = new DatagramPacket(data, data.length, address, 9876);
                 socket.send(sendPacket);
 
-                System.out.println("Message sent from client to" + address.getHostAddress());
+                System.out.println("Message sent from client to " + address.getHostAddress());
                 final DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
 
                 socket.receive(incomingPacket);
