@@ -34,7 +34,7 @@ public class HACServer {
                 final int port = incomingPacket.getPort();
 
                 printRequestToScreen(message, address, port);
-
+                updateNodeNetwork(address);
                 sendResponseToClient(address, port);
 
             }
@@ -53,8 +53,6 @@ public class HACServer {
 
     private void sendResponseToClient(final InetAddress address, final int port)
             throws IOException {
-
-        updateNodeNetwork(address);
 
         final byte[] data = serializeNodeList(nodeNetwork);
 
