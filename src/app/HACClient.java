@@ -26,25 +26,22 @@ public class HACClient {
             try {
                 socket = new DatagramSocket();
                 final InetAddress address = InetAddress.getByName(addr);
-                final byte[] incomingData = new byte[1024];
                 final String sentence = "Test sentence";
                 final byte[] data = sentence.getBytes();
-                final DatagramPacket sendPacket = new DatagramPacket(data, data.length, address, 9876);
-                socket.send(sendPacket);
+                socket.send(generatePacket(address, data));
 
-                System.out.println("Message sent from client to " + address.getHostAddress());
-                final DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
+                System.out.println("Message sent from client to " 
+                    + address.getHostAddress());
+                    
+                final byte[] incomingData = new byte[1024];
+                final DatagramPacket recvPacket = generatePacket(incomingData);
 
-                socket.receive(incomingPacket);
+                socket.receive(recvPacket);
 
-                final NodeListDatagram datagram = (NodeListDatagram) deserializeObject(incomingPacket.getData());
+                final NodeListDatagram datagram = 
+                    (NodeListDatagram) deserializeObject(recvPacket.getData());
 
-                System.out.println("Response from server: ");
-
-                for (final Node n : datagram.getNodeList()) {
-                    System.out.println(n.getAddress().getHostAddress() + " --- "
-                            + (n.getStatus() ? "active as of " : "dead: last seen ") + n.getTimestamp());
-                }
+                printServerResponse(datagram);
 
                 socket.close();
 
@@ -64,9 +61,29 @@ public class HACClient {
         }
     }
 
-    private Object deserializeObject(final byte[] data) throws IOException, ClassNotFoundException {
+    private void printServerResponse(final NodeListDatagram datagram) {
+        System.out.println("Response from server: ");
+
+        for (final Node n : datagram.getNodeList()) {
+            System.out.println(n.getAddress().getHostAddress() + " --- "
+                    + (n.getStatus() ? "active as of " : "dead: last seen ")
+                    + n.getTimestamp());
+        }
+    }
+
+    private Object deserializeObject(final byte[] data) 
+    throws IOException, ClassNotFoundException {
         final ByteArrayInputStream bais = new ByteArrayInputStream(data);
         final ObjectInput in = new ObjectInputStream(bais);
         return in.readObject(); 
+    }
+
+    private DatagramPacket generatePacket(byte[] data) {
+        return new DatagramPacket(data, data.length);
+    }
+
+    private DatagramPacket generatePacket(InetAddress address, byte[] data) {
+        final int portNumber = 9876;
+        return new DatagramPacket(data, data.length, address, portNumber);
     }
 }
