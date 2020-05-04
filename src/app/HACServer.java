@@ -7,6 +7,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.Timer;
 
 public class HACServer {
     private DatagramSocket socket;
@@ -87,6 +88,7 @@ public class HACServer {
     }
 
     public void monitorNodeAvailability() {
-
+        Timer t = new Timer();
+        t.schedule(new NodeMonitor(nodeNetwork.getNodeList()), 0, 10000);
     }
 }

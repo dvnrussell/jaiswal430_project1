@@ -35,6 +35,7 @@ public class App {
     public static void startServer() {
         final HACServer server = new HACServer();
         server.createAndListenSocket();
+        server.monitorNodeAvailability();
     }
 
     public static void startClient(String addr) {
