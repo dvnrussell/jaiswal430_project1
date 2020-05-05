@@ -29,4 +29,15 @@ public class NodeListDatagram implements Serializable{
         return version;
     }
 
+    public String toString() {
+        String objectString = "";
+
+        for (Node n : nodeList) {
+            objectString += n.getAddress().getHostAddress();
+            objectString += '\n';
+        }
+
+        return objectString;
+    }
+
 }
