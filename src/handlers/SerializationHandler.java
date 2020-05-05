@@ -1,4 +1,4 @@
-package app;
+package handlers;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
