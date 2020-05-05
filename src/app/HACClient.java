@@ -25,9 +25,11 @@ public class HACClient {
         while (true) {
             try {
                 socket = new DatagramSocket();
+
                 final InetAddress address = InetAddress.getByName(addr);
                 final String sentence = "Test sentence";
                 final byte[] data = sentence.getBytes();
+                
                 socket.send(generatePacket(address, data));
 
                 System.out.println("Message sent from client to " 
@@ -78,11 +80,11 @@ public class HACClient {
         return in.readObject(); 
     }
 
-    private DatagramPacket generatePacket(byte[] data) {
+    private DatagramPacket generatePacket(final byte[] data) {
         return new DatagramPacket(data, data.length);
     }
 
-    private DatagramPacket generatePacket(InetAddress address, byte[] data) {
+    private DatagramPacket generatePacket(final InetAddress address, final byte[] data) {
         final int portNumber = 9876;
         return new DatagramPacket(data, data.length, address, portNumber);
     }

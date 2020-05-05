@@ -82,4 +82,11 @@ nb-configuration.xml
 ##############################
 .DS_Store
 
+
+## IP for testing purposes
 .local_ip.txt
+
+## this shouldn't be the same for every machine running the code
+## maybe the final version has a make or a script that generates one with
+## 127.0.0.1
+server_ip.txt
