@@ -22,14 +22,13 @@ public class Node implements Serializable {
 
         this.status = status;
 
-        Date d = new Date();
+        final Date d = new Date();
         this.ts = new Timestamp(d.getTime());
     }
 
     public InetAddress getAddress() {
         return address;
     }
-
 
     public Boolean getStatus() {
         return status;
@@ -40,7 +39,7 @@ public class Node implements Serializable {
     }
 
     public void setTimestamp() {
-        Date d = new Date();
+        final Date d = new Date();
         ts = new Timestamp(d.getTime());
         setStatus(true);
     }

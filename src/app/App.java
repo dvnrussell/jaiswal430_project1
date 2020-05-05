@@ -38,7 +38,7 @@ public class App {
         server.monitorNodeAvailability();
     }
 
-    public static void startClient(String addr) {
+    public static void startClient(final String addr) {
         final HACClient client = new HACClient();
         client.createAndListenSocket(addr);
     }

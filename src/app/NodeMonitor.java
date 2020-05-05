@@ -7,24 +7,24 @@ import java.util.Date;
 
 public class NodeMonitor extends TimerTask {
 
-    private ArrayList<Node> nodeList;
-    private int msTolerance;
+    private final ArrayList<Node> nodeList;
+    private final int msTolerance;
     private final static int defaultTolerance = 30000;
 
-    public NodeMonitor(ArrayList<Node> nodeList) {
+    public NodeMonitor(final ArrayList<Node> nodeList) {
         this(nodeList, defaultTolerance);
     }
 
-    public NodeMonitor(ArrayList<Node> nodeList, int msTolerance) {
+    public NodeMonitor(final ArrayList<Node> nodeList, final int msTolerance) {
         this.nodeList = nodeList;
         this.msTolerance = msTolerance;
     }
 
     public void run() {
-        Date d = new Date();
-        Timestamp ts = new Timestamp(d.getTime());
+        final Date d = new Date();
+        final Timestamp ts = new Timestamp(d.getTime());
 
-        for (Node n : nodeList) {
+        for (final Node n : nodeList) {
             if (ts.getTime() - msTolerance > n.getTimestamp().getTime()) {
                 n.setStatus(false);
             }
