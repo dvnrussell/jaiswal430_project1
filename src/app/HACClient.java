@@ -27,8 +27,7 @@ public class HACClient {
                 socket = new DatagramSocket();
 
                 final InetAddress address = InetAddress.getByName(addr);
-                final String sentence = "Test sentence";
-                final byte[] data = sentence.getBytes();
+                final byte[] data = NetHandler.getMyIPString().getBytes();
                 
                 socket.send(generatePacket(address, data));
 
