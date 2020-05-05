@@ -90,3 +90,6 @@ nb-configuration.xml
 ## maybe the final version has a make or a script that generates one with
 ## 127.0.0.1
 server_ip.txt
+
+## The local files for storing available nodes
+*.bin

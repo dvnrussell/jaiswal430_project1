@@ -1,9 +1,6 @@
 package app;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -39,9 +36,11 @@ public class HACClient {
                 final DatagramPacket recvPacket = generatePacket(incomingData);
 
                 socket.receive(recvPacket);
+                final byte[] recvData = recvPacket.getData();
 
-                final NodeListDatagram datagram = 
-                    (NodeListDatagram) deserializeObject(recvPacket.getData());
+                final NodeListDatagram datagram = (NodeListDatagram) 
+                        SerializationHandler.deserializeObject(recvData);
+                FileHandler.writeBytesToFile(recvData, "node_list.bin");
 
                 printServerResponse(datagram);
 
@@ -71,13 +70,6 @@ public class HACClient {
                     + (n.getStatus() ? "active as of " : "dead: last seen ")
                     + n.getTimestamp());
         }
-    }
-
-    private Object deserializeObject(final byte[] data) 
-    throws IOException, ClassNotFoundException {
-        final ByteArrayInputStream bais = new ByteArrayInputStream(data);
-        final ObjectInput in = new ObjectInputStream(bais);
-        return in.readObject(); 
     }
 
     private DatagramPacket generatePacket(final byte[] data) {

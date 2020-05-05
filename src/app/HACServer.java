@@ -1,8 +1,6 @@
 package app;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -54,18 +52,11 @@ public class HACServer {
     private void sendResponseToClient(final InetAddress address, final int port)
             throws IOException {
 
-        final byte[] data = serializeNodeList(nodeNetwork);
+        final byte[] data = SerializationHandler.serializeObject(nodeNetwork);
 
         final DatagramPacket replyPacket = new DatagramPacket(data, data.length, address, port);
 
         socket.send(replyPacket);
-    }
-
-    private byte[] serializeNodeList(final NodeListDatagram nodeList) throws IOException {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
-        final ObjectOutputStream oos = new ObjectOutputStream(baos);
-        oos.writeObject(nodeList);
-        return baos.toByteArray();
     }
 
     private void updateNodeNetwork(final InetAddress address) {
