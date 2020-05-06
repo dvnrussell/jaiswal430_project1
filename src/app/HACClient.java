@@ -22,7 +22,7 @@ public class HACClient {
     }
 
     public void createAndListenSocket(final String addr) {
-        while (true) {
+        //while (true) {
             try {
                 socket = new DatagramSocket();
 
@@ -55,7 +55,7 @@ public class HACClient {
             } catch (final ClassNotFoundException e) {
                 e.printStackTrace();
             }
-        }
+        //}
     }
 
     private NodeListDatagram generateDatagram(final DatagramPacket recvPacket) throws IOException, ClassNotFoundException {

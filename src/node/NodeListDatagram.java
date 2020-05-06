@@ -2,6 +2,7 @@ package node;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Timer;
 
 public class NodeListDatagram implements Serializable{
 
@@ -39,5 +40,10 @@ public class NodeListDatagram implements Serializable{
 
         return objectString;
     }
+
+	public void monitorNodeAvailability() {
+	    final Timer t = new Timer();
+	    t.schedule(new NodeMonitor(getNodeList()), 0, 10000);
+	}
 
 }

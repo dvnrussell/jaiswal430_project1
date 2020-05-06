@@ -8,11 +8,10 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.Timer;
 
 public class HACServer {
     private DatagramSocket socket;
-    private final NodeListDatagram nodeNetwork;
+    public final NodeListDatagram nodeNetwork;
 
     public HACServer() {
         socket = null;
@@ -20,6 +19,7 @@ public class HACServer {
     }
 
     public void createAndListenSocket() {
+        nodeNetwork.monitorNodeAvailability();
         try {
             socket = new DatagramSocket(9876);
             final byte[] incomingData = new byte[1024];
@@ -75,12 +75,8 @@ public class HACServer {
 
         for(final Node n : nodeNetwork.getNodeList()) {
             System.out.println(n.getAddress().getHostAddress() + " --- "
-                    + (n.getStatus() ? "active as of " : "dead: last seen ") + n.getTimestamp());
+                    + (n.getStatus() ? "active as of " : "dead: last seen ")
+                    + n.getTimestamp());
         }
-    }
-
-    public void monitorNodeAvailability() {
-        final Timer t = new Timer();
-        t.schedule(new NodeMonitor(nodeNetwork.getNodeList()), 0, 10000);
     }
 }
