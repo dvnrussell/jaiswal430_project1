@@ -82,7 +82,7 @@ public class HACClient {
     }
 
     private DatagramPacket generatePacket(final InetAddress address, final byte[] data) {
-        final int portNumber = 9876;
+        final int portNumber = 7007;
         return new DatagramPacket(data, data.length, address, portNumber);
     }
 }

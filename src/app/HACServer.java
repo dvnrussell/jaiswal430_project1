@@ -21,7 +21,7 @@ public class HACServer {
     public void createAndListenSocket() {
         nodeNetwork.monitorNodeAvailability();
         try {
-            socket = new DatagramSocket(9876);
+            socket = new DatagramSocket(7007);
             final byte[] incomingData = new byte[1024];
 
             while (true) {
