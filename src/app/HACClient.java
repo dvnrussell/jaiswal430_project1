@@ -36,14 +36,8 @@ public class HACClient {
                     
                 final byte[] incomingData = new byte[1024];
                 final DatagramPacket recvPacket = generatePacket(incomingData);
-
                 socket.receive(recvPacket);
-                final byte[] recvData = recvPacket.getData();
-
-                final NodeListDatagram datagram = (NodeListDatagram) 
-                        SerializationHandler.deserializeObject(recvData);
-                FileHandler.writeBytesToFile(recvData, "node_list.bin");
-
+                final NodeListDatagram datagram = generateDatagram(recvPacket);
                 printServerResponse(datagram);
 
                 socket.close();
@@ -62,6 +56,15 @@ public class HACClient {
                 e.printStackTrace();
             }
         }
+    }
+
+    private NodeListDatagram generateDatagram(final DatagramPacket recvPacket) throws IOException, ClassNotFoundException {
+        final byte[] recvData = recvPacket.getData();
+
+        final NodeListDatagram datagram = (NodeListDatagram) 
+                SerializationHandler.deserializeObject(recvData);
+        FileHandler.writeBytesToFile(recvData, "node_list.bin");
+        return datagram;
     }
 
     private void printServerResponse(final NodeListDatagram datagram) {
