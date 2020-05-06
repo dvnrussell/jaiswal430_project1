@@ -17,11 +17,11 @@ public class App {
 
         } else if (args.length == 2 && args[0].equals("p")) {
 
-            final String addr = FileHandler.convertAddressFile(args[1]);
-
-            final Thread clientThread = new Thread(() -> startClient(addr));
             final Thread serverThread = new Thread(() -> startServer());
             serverThread.start();
+
+            final String addr = FileHandler.convertAddressFile(args[1]);
+            final Thread clientThread = new Thread(() -> startClient(addr));
             clientThread.start();
 
         } else if (args[0].equals("s")) {
